@@ -12,8 +12,8 @@ from rest_framework.viewsets import ModelViewSet
 from Currency.serializers import UserSerializer, CurrencySerializer, Currency, CurrencySerializePost
 from rest_framework.response import Response
 
-
 from rest_framework.schemas.openapi import AutoSchema
+
 
 class SimpleFilterBackend(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
@@ -31,8 +31,10 @@ class SimpleFilterBackend(BaseFilterBackend):
             "schema": {"type": "string"}
         }]
 
+
 class MyViewSet(ModelViewSet):
     filter_backends = [SimpleFilterBackend]
+
 
 class CustomSchema(AutoSchema):
     def get_operation(self, path, method):
@@ -56,8 +58,6 @@ class CurrencyAPI(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = CurrencySerializer(queryset, many=True)
-        print('queryset', queryset.values('exchangedate'))
-        print('serializer', serializer)
 
         return Response(serializer.data)
 
