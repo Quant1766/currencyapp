@@ -44,4 +44,9 @@ services:
     command: celery -A CurrencyApp worker -l info
     volumes:
       - .:/code
+    environment:
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+        - db
 

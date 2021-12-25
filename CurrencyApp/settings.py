@@ -303,7 +303,7 @@ DJANGO_ALLOW_ASYNC_UNSAFE = True
 
 CELERY_BEAT_SCHEDULE = {
     'update_catalogs': {
-        'task': 'Currency.tasks.update_catalogs',
+        'task': 'Currency.tasks.update_currency',
         "schedule": crontab(hour=3, minute=00),
 
     }
