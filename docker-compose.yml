@@ -37,3 +37,11 @@ services:
       - db
       - redis
       - rabbitmq
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A CurrencyApp worker -l info
+    volumes:
+      - .:/code
+

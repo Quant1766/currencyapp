@@ -225,7 +225,7 @@ try:
     from kombu import Queue
     from celery import Celery
 
-    CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='amqp://localhost')
+    CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='redis://localhost:6379/0')
     if CELERY_BROKER_URL:
         CELERYD_TASK_SOFT_TIME_LIMIT = 60
         CELERY_ACCEPT_CONTENT = ['application/json']
