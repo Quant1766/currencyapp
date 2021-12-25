@@ -12,6 +12,7 @@ class CurrencyAPI(ListAPIView):
     serializer_class = CurrencySerializer
     model = Currency
 
+
     def get_queryset(self):
         from_date = self.request.query_params.get('from', None)
         to_date = self.request.query_params.get('to', None)

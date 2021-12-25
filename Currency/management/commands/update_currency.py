@@ -1,6 +1,4 @@
 from django.core.management.base import BaseCommand
-
-from Currency.utils import update_catalog_by_date
 import datetime
 import aiohttp
 import asyncio
@@ -30,7 +28,7 @@ class Command(BaseCommand):
             first_date = datetime.date(1996, 1, 6)
             output_l = []
             duration = datetime.datetime.now().date() - first_date
-            for d in range(duration.days-10, duration.days):
+            for d in range(duration.days-100, duration.days):
                 day = first_date + datetime.timedelta(days=d)
                 data = await self.fetch(client, day.strftime('%Y%m%d'))
                 data_objs = [Currency(r030=d['r030'], txt=d['txt'], rate=d['rate'], cc=d['cc'], exchangedate=day) for d

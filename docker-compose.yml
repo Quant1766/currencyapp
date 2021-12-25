@@ -22,11 +22,11 @@ services:
   web:
     build: .
     restart: always
-    command: python manage.py runserver 0.0.0.0:8060
+    command: python manage.py runserver 0.0.0.0:8000
     env_file:
       - .env
     ports:
-      - "127.0.0.1:8060:8060"
+      - "127.0.0.1:8000:8000"
     volumes:
       - .:/code
     links:

@@ -2,7 +2,9 @@
 build:
 	make build-docker
 	make migrate-python
-	make manage-createsuperuser
+	#make manage-createsuperuser
+	make update_currency-python
+
 
 build-docker:
 	docker-compose build
@@ -20,7 +22,9 @@ mm: makemigrations-python
 migrate-python: command=migrate
 migrate-python: manage-python
 
-manage-createsuperuser: command=shell -c "from usermodel.models import User; User.objects.create_superuser(first_name='Admin', last_name='User', email='admin@example.com', password='adminpass') if User.objects.filter(email='admin@example.com').first() is None else None;"
+update_currency-python: command=update_currency
+update_currency-python: manage-python
+
 manage-createsuperuser: manage-python
 csu: manage-createsuperuse
 

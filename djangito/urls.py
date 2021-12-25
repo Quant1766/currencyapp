@@ -8,15 +8,15 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Snippets API",
+        title="Currency API",
         default_version='v1',
-        description="Test description",
+        description="Api of getting current and store currency",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
+        contact=openapi.Contact(email="andreyhonawork@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
     # url=f'{settings.APP_URL}/api/v3/',
-    patterns=[path('api/', include('myapi.urls')), ],
+    patterns=[path('api/', include('Currency.urls')), ],
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
@@ -32,7 +32,7 @@ urlpatterns = [
         r'^swagger(?P<format>\.json|\.yaml)$',
         schema_view.without_ui(cache_timeout=0),
         name='schema-json'),
-    path('api/', include('myapi.urls')),
+    path('api/', include('Currency.urls')),
     path('sns/', include('ses_sns.urls')),
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),

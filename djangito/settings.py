@@ -57,9 +57,10 @@ THIRD_PARTY_APPS = [
 ]
 
 PROJECT_APPS = [
-    'usermodel',
+    # 'usermodel',
     'ses_sns',
-    'myapi',
+    # 'myapi',
+    'Currency'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
@@ -78,13 +79,31 @@ MIDDLEWARE = [
 ]
 
 # Databases
-DATABASES = {
-    "default": env.db("DATABASE_URL")
-}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
-DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
+if env('DATABASE_URL', default=''):
+    DATABASES = {
+        'default': env.db()
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'sqlite3.db', # Or path to database file if using sqlite3.
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',
+            'PORT': '',
+        }
+    }
+
+# DATABASES = {
+#     "default": env.db("DATABASE_URL")
+# }
+# DATABASES["default"]["ATOMIC_REQUESTS"] = True
+# DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
 
 ROOT_URLCONF = 'djangito.urls'
+
+USER_DETAILS_SERIALIZER = 'rest_auth.views.UserDetailsView'
 
 TEMPLATES = [
     {
@@ -122,7 +141,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 # User Model Definition
-AUTH_USER_MODEL = 'usermodel.User'
+# AUTH_USER_MODEL = 'usermodel.User'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
