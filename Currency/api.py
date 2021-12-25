@@ -1,52 +1,11 @@
 from datetime import datetime
 
-import django_filters
-
-from rest_framework import permissions, status
-from rest_framework.decorators import api_view
-from rest_framework.filters import BaseFilterBackend
+from rest_framework import permissions
 from rest_framework.generics import CreateAPIView, ListAPIView
 from django.contrib.auth import get_user_model
-from rest_framework.viewsets import ModelViewSet
 
 from Currency.serializers import UserSerializer, CurrencySerializer, Currency, CurrencySerializePost
 from rest_framework.response import Response
-
-from rest_framework.schemas.openapi import AutoSchema
-
-
-class SimpleFilterBackend(BaseFilterBackend):
-    def filter_queryset(self, request, queryset, view):
-        foo = request.query_params.get("foo")
-        if foo:
-            queryset = queryset.filter(foo=foo)
-        return queryset
-
-    def get_schema_operation_parameters(self, view):
-        return [{
-            "name": "foo",
-            "in": "query",
-            "required": True,
-            "description": "What foo does...",
-            "schema": {"type": "string"}
-        }]
-
-
-class MyViewSet(ModelViewSet):
-    filter_backends = [SimpleFilterBackend]
-
-
-class CustomSchema(AutoSchema):
-    def get_operation(self, path, method):
-        op = super().get_operation(path, method)
-        op['parameters'].append({
-            "name": "foo",
-            "in": "query",
-            "required": True,
-            "description": "What foo does...",
-            'schema': {'type': 'string'}
-        })
-        return op
 
 
 class CurrencyAPI(ListAPIView):
