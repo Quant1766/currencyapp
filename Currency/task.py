@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 
 import aiohttp
@@ -23,12 +24,14 @@ async def fetch(client, date_str):
         return await resp.json()
 
 
-async def parse():
+async def parse(full=False):
     async with aiohttp.ClientSession() as client:
         first_date = datetime.date(1996, 1, 6)
         output_l = []
         duration = datetime.datetime.now().date() - first_date
-        for d in range(duration.days - 100, duration.days):
+        duration_days_start = 0 if full else duration.days - 100
+
+        for d in range(duration_days_start, duration.days):
             day = first_date + datetime.timedelta(days=d)
 
             data = await fetch(client, day.strftime('%Y%m%d'))
@@ -40,15 +43,15 @@ async def parse():
 
 @app.task
 def update_currency():
-    first_date = datetime.date(1996, 1, 6)
-    dates_update = []
-    duration = datetime.datetime.now().date() - first_date
-    currency_objs = Currency.objects.all().values_list('exchangedate').distinct()
-    print('currency_objs', currency_objs)
-    # currency_objs = await Currency.objects.filter(exchangedate=day)
-    # if currency_objs:
-    #     continue
-    #
-    # loop = asyncio.get_event_loop()
-    # data_objs = loop.run_until_complete(parse())
-    # Currency.objects.bulk_create(data_objs, ignore_conflicts=True)
+    # first_date = datetime.date(1996, 1, 6)
+    # dates_update = []
+    # duration = datetime.datetime.now().date() - first_date
+    # currency_objs = Currency.objects.all().values_list('exchangedate').distinct()
+    # print('currency_objs', currency_objs)
+    # # currency_objs = await Currency.objects.filter(exchangedate=day)
+    # # if currency_objs:
+    # #     continue
+    # #
+    loop = asyncio.get_event_loop()
+    data_objs = loop.run_until_complete(parse(True))
+    Currency.objects.bulk_create(data_objs, ignore_conflicts=True)
