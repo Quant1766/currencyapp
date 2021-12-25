@@ -24,5 +24,5 @@ def get_catalog_by_date(date_str: str):
 
 def update_catalog_by_date(date_str: str):
     data = get_catalog_by_date(date_str)
-    data_objs = [Currency(r030=d['r030'], txt=d['txt'], rate=d['rate'], cc=d['cc'], exchangedate=datetime.datetime.strptime(d['exchangedate'], '%d.%m.%Y')) for d in data]
-    # Currency.objects.bulk_create(data_objs, ignore_conflicts=True)
+    data_objs = [Currency(r030=d['r030'], txt=d['txt'], rate=d['rate'], cc=d['cc'],
+                          exchangedate=datetime.datetime.strptime(d['exchangedate'], '%d.%m.%Y')) for d in data]

@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import path
 
-from Currency.api import CurrencyAPI, CreateUserView, MyViewSet
+from Currency.api import CurrencyAPI, CreateUserView
 
 # Inlcude the schema view in our urls.
 urlpatterns = [

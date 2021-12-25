@@ -17,9 +17,6 @@ by date currency https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?js
 URL_REQUEST = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json'
 
 
-
-
-
 async def fetch(client, date_str):
     async with client.get(f'{URL_REQUEST}&date={date_str}') as resp:
         assert resp.status == 200
@@ -39,6 +36,7 @@ async def parse():
                          in data]
             output_l += data_objs
         return output_l
+
 
 @app.task
 def update_currency():
