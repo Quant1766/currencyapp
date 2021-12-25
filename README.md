@@ -1,16 +1,10 @@
-# Djangitos
-
-Django Template for Saas projects.
-
-Join our Discord server to get community and maintainers support: https://discord.gg/tZtrpD45TR
-
+# CurrencyApp
 ## Set up Process
 
 1. ### Env File Creation
 ⋅⋅⋅ Create an env file (`.env`) file in the root of the project with the following content:
 
 ```
-DATABASE_URL=postgresql://djangito:djangito@db/djangito
 REDIS_URL=redis://redis/0
 DJANGO_SECRET_KEY=123
 DJANGO_DEBUG=True
@@ -21,15 +15,6 @@ DJANGO_DEBUG=True
 ⋅⋅⋅ This command will install all the dependencies in [requirements.txt](requirements.txt) with `docker-compose build`.
 
 ⋅⋅⋅ After all dependencies are installed, this will run `python manage.py migrate`
-
-⋅⋅⋅ Finally it will create a base Superuser (if None exists) with the following data:
-
-    ⋅⋅* First Name: Admin
-    ⋅⋅* Last Name: User
-    ⋅⋅* Email: admin@example.com
-    ⋅⋅⋅* Password: adminpass
-
-**We Recommend changing the User password once the set up is completed.**
 
 ---
 
@@ -42,3 +27,25 @@ This command will run `docker-compose up` and will run your django server in the
 ---
 
 More available commands in [Makefile](Makefile)
+
+## Work
+### go to swager
+open http://0.0.0.0:8000/swagger-ui/
+
+#### First Create user
+method: register
+
+#### Autorize
+Enter your user from Register
+#### Post currency
+
+Change Json for select data:exchangedate of target dete\
+or use min_exchangedate and max_exchangedate for date range
+
+```
+{
+    "exchangedate": "2021-12-25",
+    "min_exchangedate": "2021-12-25",
+    "max_exchangedate": "2021-12-25"
+}
+```

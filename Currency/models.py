@@ -17,7 +17,7 @@ class Currency(models.Model):
     txt = models.CharField('Валюта', max_length=40, blank=True, null=True)
     rate = models.DecimalField('rate', max_digits=10, decimal_places=4, blank=True, null=True)
     cc = models.CharField('cc', max_length=5, blank=True, null=True)
-    exchangedate = models.DateField("exchangedate", blank=True, null=True)
+    exchangedate = models.DateTimeField("Date")
 
     class Meta:
         unique_together = ('exchangedate', 'cc',)

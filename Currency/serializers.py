@@ -20,19 +20,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CurrencySerializer(serializers.ModelSerializer):
-    # exchangedate = serializers.DateField(format="%Y-%m-%d")
-    exchangedate = serializers.DateField()
+    exchangedate = serializers.DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = Currency
-        # fields = ('r030', 'txt', 'rate', 'cc', 'exchangedate')
         fields = '__all__'
 
 
 class CurrencySerializePost(serializers.ModelSerializer):
-    exchangedate = serializers.DateField(required=False)
-    min_exchangedate = serializers.DateField(required=False)
-    max_exchangedate = serializers.DateField(required=False)
+    exchangedate = serializers.DateField(format="%Y-%m-%d", required=False)
+    min_exchangedate = serializers.DateField(format="%Y-%m-%d", required=False)
+    max_exchangedate = serializers.DateField(format="%Y-%m-%d", required=False)
 
     class Meta:
         model = Currency

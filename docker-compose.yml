@@ -5,18 +5,18 @@ services:
   rabbitmq:
     image: rabbitmq
     environment:
-      - RABBITMQ_DEFAULT_USER=djangito
-      - RABBITMQ_DEFAULT_PASS=djangito
-      - RABBITMQ_DEFAULT_VHOST=djangito
+      - RABBITMQ_DEFAULT_USER=CurrencyApp
+      - RABBITMQ_DEFAULT_PASS=CurrencyApp
+      - RABBITMQ_DEFAULT_VHOST=CurrencyApp
     ports:
       - "21001:5672"
       - "21002:15672"
   db:
     image: postgres
     environment:
-      - POSTGRES_USER=djangito
-      - POSTGRES_PASSWORD=djangito
-      - POSTGRES_DB=djangito
+      - POSTGRES_USER=CurrencyApp
+      - POSTGRES_PASSWORD=CurrencyApp
+      - POSTGRES_DB=CurrencyApp
     ports:
       - "21003:5432"
   web:

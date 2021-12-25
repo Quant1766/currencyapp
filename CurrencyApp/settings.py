@@ -2,6 +2,8 @@ from pathlib import Path
 import environ
 import os
 
+from celery.schedules import crontab
+
 env = environ.Env()
 
 """
@@ -57,9 +59,6 @@ THIRD_PARTY_APPS = [
 ]
 
 PROJECT_APPS = [
-    # 'usermodel',
-    'ses_sns',
-    # 'myapi',
     'Currency'
 ]
 
@@ -101,7 +100,7 @@ else:
 # DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
 
-ROOT_URLCONF = 'djangito.urls'
+ROOT_URLCONF = 'CurrencyApp.urls'
 
 USER_DETAILS_SERIALIZER = 'rest_auth.views.UserDetailsView'
 
@@ -121,7 +120,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangito.wsgi.application'
+WSGI_APPLICATION = 'CurrencyApp.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -141,7 +140,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 # User Model Definition
-# AUTH_USER_MODEL = 'usermodel.User'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
@@ -189,12 +187,12 @@ if AWS_STORAGE_BUCKET_NAME:
     # s3 static settings
     STATIC_LOCATION = 'static'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    STATICFILES_STORAGE = 'djangito.storages.StaticStorage'
+    STATICFILES_STORAGE = 'CurrencyApp.storages.StaticStorage'
 
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'djangito.storages.PublicMediaStorage'
+    DEFAULT_FILE_STORAGE = 'CurrencyApp.storages.PublicMediaStorage'
 
     STATICFILES_DIRS = (
         # os.path.join(BASE_DIR, "static"),
@@ -254,7 +252,6 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_FORMS = {'signup': 'usermodel.forms.MyCustomSignupForm'}
 ACCOUNT_MAX_EMAIL_ADDRESSES = 2
 SOCIALACCOUNT_PROVIDERS = {
 
@@ -280,9 +277,6 @@ if SOCIALACCOUNT_PROVIDERS_GOOGLE_CLIENT_ID:
 # Crispy Forms Settings
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# Django Post Office Settings
-EMAIL_BACKEND = 'ses_sns.backend.FilteringEmailBackend'
-
 POST_OFFICE = {
     'BACKENDS': {
         'default': 'django_ses.SESBackend',
@@ -300,5 +294,17 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
 ]
 
+
 CORS_EXPOSE_HEADERS = ['Content-Type', 'X-CSRFToken']
 CORS_ALLOW_CREDENTIALS = True
+DATE_FORMAT = "%Y-%m-%d"
+
+DJANGO_ALLOW_ASYNC_UNSAFE = True
+
+CELERY_BEAT_SCHEDULE = {
+    'update_catalogs': {
+        'task': 'Currency.tasks.update_catalogs',
+        "schedule": crontab(hour=3, minute=00),
+
+    }
+}
